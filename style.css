@@ -1,18 +1,87 @@
-/* Custom Styles */
 body {
-    background-color: #0f172a;
+    background-color: #080d1a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding-bottom: 50px;
 }
 
-select option {
-    background-color: #1e293b;
+.nav-container {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #1a2436;
+}
+
+.logo { font-weight: bold; margin-right: 20px; }
+.menu a { color: #8a99af; text-decoration: none; margin-right: 15px; font-size: 0.9rem; }
+.settings-icon { margin-left: auto; color: #f1c40f; }
+
+.content-wrapper { padding: 20px; max-width: 600px; margin: auto; }
+
+.section-title {
+    font-size: 0.8rem;
+    margin: 25px 0 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.section-title span {
+    width: 3px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+.blue-line { background-color: #3498db; }
+.purple-line { background-color: #9b59b6; }
+.yellow-line { background-color: #f1c40f; }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #121a2d;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.card i { font-size: 1.5rem; margin-bottom: 10px; }
+.card h4 { font-size: 0.8rem; margin: 5px 0; }
+.card p { font-size: 0.6rem; color: #8a99af; margin: 0; }
+
+.telegram-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #0088cc22, #0088cc55);
+    border: 1px solid #0088cc;
+    border-radius: 50px;
+    padding: 12px;
+    text-decoration: none;
     color: white;
+    font-size: 0.7rem;
+    margin: 30px 0;
 }
 
-#srtOutput::-webkit-scrollbar {
-    width: 5px;
+.feature-card {
+    background-color: #121a2d;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: start;
+    grid-column: span 1.5; /* Layout adjustment */
 }
 
-#srtOutput::-webkit-scrollbar-thumb {
-    background: #3b82f6;
-    border-radius: 10px;
-}
+/* Color Classes */
+.icon-blue { color: #3498db; }
+.icon-pink { color: #e91e63; }
+.icon-green { color: #2ecc71; }
+.icon-purple { color: #9b59b6; }
