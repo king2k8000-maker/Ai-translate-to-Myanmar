@@ -3,62 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Translate to Myanmar</title>
+    <title>Ko Paing - AI Tools</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#0f172a] text-white font-sans">
-    <div class="max-w-md mx-auto p-4">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-xl font-bold">AI Translate to Myanmar</h1>
-            <button id="settingsBtn" class="text-yellow-500">??</button>
-        </div>
+<body>
 
-        <div class="bg-[#1e293b] p-6 rounded-2xl border-2 border-dashed border-blue-500 text-center mb-4">
-            <input type="file" id="audioInput" class="hidden" accept="audio/*,video/*">
-            <label for="audioInput" class="cursor-pointer">
-                <div class="text-4xl mb-2">??</div>
-                <p id="fileNameDisplay">Select audio or video file</p>
-            </label>
-        </div>
-
-        <div class="bg-[#1e293b] p-4 rounded-xl mb-4">
-            <label class="block text-xs text-gray-400 mb-1 uppercase">AI Model Selection</label>
-            <select id="modelSelect" class="w-full bg-transparent border-none focus:ring-0">
-                <option value="gemini-3-flash">Gemini 3 Flash Preview ?</option>
-            </select>
-        </div>
-
-        <button id="startBtn" class="w-full bg-[#1e293b] py-4 rounded-2xl font-bold mb-4 flex justify-center items-center gap-2">
-            START PROCESSING ?
-        </button>
-
-        <div id="outputArea" class="hidden">
-            <div class="flex justify-between items-center mb-2">
-                <h2 class="font-bold">Output Result</h2>
-                <button onclick="downloadSRT()" class="bg-gray-700 px-3 py-1 rounded text-sm">Download .SRT</button>
+    <nav>
+        <div class="nav-container">
+            <span class="logo">Ko Paing</span>
+            <div class="menu">
+                <a href="#">Home</a>
+                <a href="#">Transcript AI</a>
             </div>
-            <div id="srtOutput" class="bg-[#1e293b] p-4 rounded-xl h-64 overflow-y-auto text-sm leading-relaxed mb-4">
-                </div>
+            <i class="fas fa-sun settings-icon"></i>
+        </div>
+    </nav>
 
-            <div class="bg-[#1e293b] p-6 rounded-3xl text-center">
-                <h3 class="font-bold mb-2">Your AI Voice</h3>
-                <div class="flex justify-center items-center gap-4 mb-4">
-                    <button id="playBtn" class="bg-green-500 w-12 h-12 rounded-full text-white text-xl">?</button>
-                    <div class="w-full h-1 bg-gray-600 rounded">
-                        <div class="bg-green-500 h-1 w-1/3"></div>
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <button class="flex-1 bg-gray-700 py-2 rounded-xl text-sm">Re-generate</button>
-                    <button id="downloadMp3Btn" class="flex-1 bg-blue-600 py-2 rounded-xl text-sm">Download MP3</button>
-                </div>
+    <div class="content-wrapper">
+        <h3 class="section-title"><span class="blue-line"></span> AI TOOLS</h3>
+        
+        <div class="grid-container">
+            <div class="card">
+                <i class="fas fa-file-alt icon-blue"></i>
+                <h4>Transcript AI</h4>
+                <p>Audio to Text</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-image icon-pink"></i>
+                <h4>Thumbnail AI</h4>
+                <p>Image Gen</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-volume-up icon-green"></i>
+                <h4>Text to Speech</h4>
+                <p>Voice AI</p>
             </div>
         </div>
 
-        <audio id="aiAudioPlayer" class="hidden"></audio>
+        <h3 class="section-title"><span class="purple-line"></span> VIDEO TOOLS</h3>
+        <div class="grid-container">
+            <div class="card half-width">
+                <i class="fas fa-video icon-purple"></i>
+                <h4>Video Editor</h4>
+                <p>Online Editing</p>
+            </div>
+            <div class="card half-width">
+                <i class="fas fa-magic icon-blue"></i>
+                <h4>Recapper AI</h4>
+                <p>Video Summarizer</p>
+            </div>
+        </div>
+
+        <a href="#" class="telegram-banner">
+            <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY <span>Telegram Channel</span>
+        </a>
+
+        <h3 class="section-title"><span class="yellow-line"></span> PREMIUM FEATURES</h3>
+        <div class="grid-container">
+            <div class="feature-card">
+                <i class="fas fa-bolt yellow-text"></i>
+                <div>
+                    <h5>Fast Processing</h5>
+                    <p>Experience lightning-fast AI generation.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt blue-text"></i>
+                <div>
+                    <h5>Secure & Private</h5>
+                    <p>Your data is processed securely.</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
+
 </body>
 </html>
-
