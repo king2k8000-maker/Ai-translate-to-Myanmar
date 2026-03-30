@@ -1,53 +1,105 @@
-/* Background တစ်ခုလုံးကို အရောင်မှောင်ထားမယ် */
 body {
     background-color: #0b1426;
     color: white;
-    font-family: sans-serif;
-    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Card တွေကို ဘေးတိုက်စီဖို့ Grid သုံးမယ် */
-.card-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* တစ်တန်းကို နှစ်ခုစီ */
-    gap: 15px;
+.container {
+    background-color: #16213e;
+    width: 90%;
+    max-width: 450px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    border: 1px solid #1e293b;
+}
+
+header h1 {
+    margin: 10px 0;
+    font-size: 1.8rem;
+    color: #4e89fe;
+}
+
+header p {
+    color: #8a99af;
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+}
+
+.upload-box {
+    border: 2px dashed #3498db;
+    padding: 40px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    transition: 0.3s;
     margin-bottom: 20px;
 }
 
-/* Card တစ်ခုချင်းစီရဲ့ Design */
-.tool-card {
-    background-color: #16213e; /* Card အရောင် */
-    border: 1px solid #252d44;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
+.upload-box:hover {
+    background: rgba(52, 152, 219, 0.1);
 }
 
-.tool-card i {
-    font-size: 1.5rem;
-    color: #4e89fe;
+.upload-box i {
+    font-size: 3rem;
+    color: #3498db;
     margin-bottom: 10px;
 }
 
-.tool-card h4 {
-    margin: 5px 0;
+.primary-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
     font-size: 1rem;
+    transition: 0.3s;
 }
 
-.tool-card p {
-    font-size: 0.75rem;
-    color: #8a99af;
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
 
-/* Telegram Button Design */
-.telegram-btn {
-    display: block;
-    text-align: center;
-    border: 1px solid #0088cc;
-    padding: 12px;
-    border-radius: 50px;
-    color: #0088cc;
-    text-decoration: none;
-    font-size: 0.8rem;
-    margin: 20px 0;
+.result-section {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.output-box {
+    background-color: #0b1426;
+    padding: 15px;
+    border-radius: 10px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+    color: #cfd8dc;
+    border: 1px solid #1e293b;
+    margin-bottom: 15px;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+}
+
+.secondary-btn:hover {
+    background-color: #3498db;
+    color: white;
 }
