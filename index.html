@@ -37,7 +37,6 @@
             border-radius: 2px;
         }
 
-        /* အရောင်ခွဲခြားခြင်း */
         .blue-title::before { background-color: #3498db; }
         .purple-title::before { background-color: #9b59b6; }
 
@@ -47,28 +46,30 @@
             gap: 12px;
         }
 
-        /* ၃ ခုရှိတဲ့နေရာမှာ တစ်ခုကို အောက်တန်းပို့ဖို့ */
-        .three-columns {
-            grid-template-columns: 1fr 1fr;
-        }
-
         .tool-card {
             background-color: #16213e;
             border: 1px solid #1e293b;
             padding: 20px 10px;
-            border-radius: 12px;
+            border-radius: 15px;
             text-align: center;
         }
 
-        .tool-card i {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
+        .icon-bg {
+            background-color: rgba(78, 137, 254, 0.1);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            border-radius: 12px;
         }
 
-        .tool-card h4 { margin: 5px 0; font-size: 0.9rem; }
+        .tool-card i { font-size: 1.4rem; }
+        .tool-card h4 { margin: 5px 0; font-size: 0.95rem; }
         .tool-card p { font-size: 0.7rem; color: #8a99af; margin: 0; }
 
-        /* Icon Colors */
+        /* Colors */
         .icon-blue { color: #3498db; }
         .icon-pink { color: #e91e63; }
         .icon-green { color: #2ecc71; }
@@ -85,17 +86,9 @@
             color: white;
             text-decoration: none;
             font-size: 0.75rem;
-            margin: 25px 0;
+            margin: 30px 0;
         }
-
-        .telegram-btn i {
-            margin-right: 10px;
-            background-color: #0088cc;
-            color: white;
-            padding: 4px;
-            border-radius: 50%;
-            font-size: 0.6rem;
-        }
+        .telegram-btn i { margin-right: 10px; color: #0088cc; }
     </style>
 </head>
 <body>
@@ -105,17 +98,33 @@
     <h3 class="section-title blue-title">AI TOOLS</h3>
     <div class="card-grid">
         <div class="tool-card">
-            <i class="fas fa-file-alt icon-blue"></i>
+            <div class="icon-bg">
+                <i class="fas fa-file-invoice icon-blue"></i>
+            </div>
+            <h4>SRT Translator</h4>
+            <p>Batch Subtitles Translation</p>
+        </div>
+
+        <div class="tool-card">
+            <div class="icon-bg">
+                <i class="fas fa-file-alt icon-blue"></i>
+            </div>
             <h4>Transcript AI</h4>
             <p>Audio to Text</p>
         </div>
+
         <div class="tool-card">
-            <i class="fas fa-image icon-pink"></i>
+            <div class="icon-bg">
+                <i class="fas fa-image icon-pink"></i>
+            </div>
             <h4>Thumbnail AI</h4>
             <p>Image Gen</p>
         </div>
+
         <div class="tool-card">
-            <i class="fas fa-volume-up icon-green"></i>
+            <div class="icon-bg">
+                <i class="fas fa-volume-up icon-green"></i>
+            </div>
             <h4>Text to Speech</h4>
             <p>Voice AI</p>
         </div>
@@ -124,19 +133,23 @@
     <h3 class="section-title purple-title">VIDEO TOOLS</h3>
     <div class="card-grid">
         <div class="tool-card">
-            <i class="fas fa-video icon-purple"></i>
+            <div class="icon-bg">
+                <i class="fas fa-video icon-purple"></i>
+            </div>
             <h4>Video Editor</h4>
             <p>Online Editing</p>
         </div>
         <div class="tool-card">
-            <i class="fas fa-magic icon-blue"></i>
+            <div class="icon-bg">
+                <i class="fas fa-magic icon-blue"></i>
+            </div>
             <h4>Recapper AI</h4>
             <p>Video Summarizer</p>
         </div>
     </div>
 
     <a href="#" class="telegram-btn">
-        <i class="fab fa-telegram-plane"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
+        <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
     </a>
 
 </div>
