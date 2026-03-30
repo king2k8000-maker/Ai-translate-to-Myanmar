@@ -3,198 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ko Paing - AI Tools</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>AI Translate Myanmar</title>
     <style>
-        /* အခြေခံ Style များ */
-        body {
-            background-color: #080d1a;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 450px;
-        }
-
-        /* ခေါင်းစဉ် Style */
-        .section-header {
-            font-size: 0.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin: 25px 0 15px 0;
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-        }
-
-        .section-header::before {
-            content: "";
-            width: 3px;
-            height: 14px;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
-        .blue-header::before { background-color: #3498db; }
-        .purple-header::before { background-color: #9b59b6; }
-        .yellow-header::before { background-color: #f1c40f; }
-
-        /* Grid Layout */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        /* Card Style */
-        .tool-card {
-            background-color: #121a2d;
-            border: 1px solid #1e293b;
-            padding: 25px 15px;
-            border-radius: 18px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .tool-card:hover {
-            border-color: #3498db;
-            background-color: #16213e;
-        }
-
-        .icon-box {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            border-radius: 12px;
-        }
-
-        .tool-card i { font-size: 1.5rem; }
-        .tool-card h4 { margin: 8px 0 4px 0; font-size: 0.95rem; }
-        .tool-card p { font-size: 0.7rem; color: #8a99af; margin: 0; }
-
-        /* Icon အရောင်များ */
-        .c-blue { color: #3498db; }
-        .c-pink { color: #e91e63; }
-        .c-green { color: #2ecc71; }
-        .c-purple { color: #9b59b6; }
-
-        /* Telegram Button */
-        .telegram-banner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 136, 204, 0.05);
-            border: 1px solid #0088cc;
-            padding: 12px;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.75rem;
-            margin: 30px 0;
-            gap: 10px;
-        }
-
-        .telegram-banner i {
-            background-color: #0088cc;
-            padding: 5px;
-            border-radius: 50%;
-            font-size: 0.7rem;
-        }
-
-        /* Premium Features */
-        .feature-item {
-            background-color: #121a2d;
-            border: 1px solid #1e293b;
-            padding: 15px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .feature-item i { font-size: 1.2rem; }
-        .feature-text h5 { margin: 0; font-size: 0.9rem; }
-        .feature-text p { margin: 2px 0 0 0; font-size: 0.7rem; color: #8a99af; }
-
+        /* သင့်ရဲ့ လက်ရှိ CSS Design တွေကို ဒီမှာထားပါ */
+        body { background-color: #0b1426; color: white; font-family: sans-serif; padding: 20px; }
+        .box { background: #16213e; padding: 20px; border-radius: 15px; text-align: center; }
+        input, button { margin-top: 10px; padding: 10px; border-radius: 5px; width: 100%; }
+        #output { margin-top: 20px; background: #0f172a; padding: 10px; min-height: 100px; border: 1px solid #334155; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <div class="section-header blue-header">AI Tools</div>
-    <div class="grid-container">
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-file-invoice c-blue"></i></div>
-            <h4>SRT Translator</h4>
-            <p>Batch Subtitles Translation</p>
-        </div>
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-file-alt c-blue"></i></div>
-            <h4>Transcript AI</h4>
-            <p>Audio to Text</p>
-        </div>
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-image c-pink"></i></div>
-            <h4>Thumbnail AI</h4>
-            <p>Image Gen</p>
-        </div>
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-volume-up c-green"></i></div>
-            <h4>Text to Speech</h4>
-            <p>Voice AI</p>
-        </div>
-    </div>
-
-    <div class="section-header purple-header">Video Tools</div>
-    <div class="grid-container">
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-video c-purple"></i></div>
-            <h4>Video Editor</h4>
-            <p>Online Editing</p>
-        </div>
-        <div class="tool-card">
-            <div class="icon-box"><i class="fas fa-pen-nib c-blue"></i></div>
-            <h4>Recapper AI</h4>
-            <p>Video Summarizer</p>
-        </div>
-    </div>
-
-    <a href="https://t.me/yourchannel" class="telegram-banner">
-        <i class="fab fa-telegram-plane"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
-    </a>
-
-    <div class="section-header yellow-header">Premium Features</div>
-    
-    <div class="feature-item">
-        <i class="fas fa-bolt c-purple" style="color: #f1c40f;"></i>
-        <div class="feature-text">
-            <h5>Fast Processing</h5>
-            <p>Experience lightning-fast AI generation optimized for speed.</p>
-        </div>
-    </div>
-
-    <div class="feature-item">
-        <i class="fas fa-shield-alt c-blue"></i>
-        <div class="feature-text">
-            <h5>Secure & Private</h5>
-            <p>Your data is processed securely and never shared with third parties.</p>
-        </div>
-    </div>
-
+<div class="box">
+    <h3>AI Translate to Myanmar</h3>
+    <input type="file" id="audioFile" accept="audio/*,video/*">
+    <button onclick="startProcessing()">START PROCESSING</button>
+    <div id="output">ရလဒ်ကို ဒီမှာပြပါမယ်...</div>
 </div>
+
+<script>
+    // ဒီနေရာမှာ သင့် API Key ကို ထည့်ပါ
+    const API_KEY = "သင့်ရဲ့_API_KEY_ကိုဒီမှာထည့်ပါ"; 
+
+    async function startProcessing() {
+        const fileInput = document.getElementById('audioFile');
+        const output = document.getElementById('output');
+
+        if (!fileInput.files[0]) {
+            alert("ဖိုင်ရွေးပါ");
+            return;
+        }
+
+        output.innerText = "ဘာသာပြန်နေပါပြီ... ခဏစောင့်ပါ ⏳";
+
+        try {
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64Data = reader.result.split(',')[1];
+                
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: "Transcribe and translate this to Myanmar language." },
+                                { inline_data: { mime_type: file.type, data: base64Data } }
+                            ]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                output.innerText = data.candidates[0].content.parts[0].text;
+            };
+        } catch (e) {
+            output.innerText = "Error တက်နေပါတယ်။ API Key ကို ပြန်စစ်ပါ။";
+        }
+    }
+</script>
 
 </body>
 </html>
