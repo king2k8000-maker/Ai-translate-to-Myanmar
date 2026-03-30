@@ -52,6 +52,13 @@
             padding: 20px 10px;
             border-radius: 15px;
             text-align: center;
+            transition: 0.3s;
+            cursor: pointer; /* လက်ညှိုးပုံစံပေါ်စေရန် */
+        }
+
+        .tool-card:hover {
+            background-color: #1c2b50;
+            transform: translateY(-3px);
         }
 
         .icon-bg {
@@ -105,7 +112,7 @@
             <p>Batch Subtitles Translation</p>
         </div>
 
-        <div class="tool-card">
+        <div class="tool-card" onclick="location.href='transcript.html'">
             <div class="icon-bg">
                 <i class="fas fa-file-alt icon-blue"></i>
             </div>
@@ -148,7 +155,7 @@
         </div>
     </div>
 
-    <a href="#" class="telegram-btn">
+    <a href="https://t.me/your_telegram_link" class="telegram-btn">
         <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
     </a>
 
