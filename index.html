@@ -1,164 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Design</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        body {
-            background-color: #0b1426;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: auto;
-        }
-
-        .section-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 25px 0 15px 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title::before {
-            content: "";
-            width: 3px;
-            height: 15px;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
-        .blue-title::before { background-color: #3498db; }
-        .purple-title::before { background-color: #9b59b6; }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .tool-card {
-            background-color: #16213e;
-            border: 1px solid #1e293b;
-            padding: 20px 10px;
-            border-radius: 15px;
-            text-align: center;
-            transition: 0.3s;
-            cursor: pointer; /* လက်ညှိုးပုံစံပေါ်စေရန် */
-        }
-
-        .tool-card:hover {
-            background-color: #1c2b50;
-            transform: translateY(-3px);
-        }
-
-        .icon-bg {
-            background-color: rgba(78, 137, 254, 0.1);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            border-radius: 12px;
-        }
-
-        .tool-card i { font-size: 1.4rem; }
-        .tool-card h4 { margin: 5px 0; font-size: 0.95rem; }
-        .tool-card p { font-size: 0.7rem; color: #8a99af; margin: 0; }
-
-        /* Colors */
-        .icon-blue { color: #3498db; }
-        .icon-pink { color: #e91e63; }
-        .icon-green { color: #2ecc71; }
-        .icon-purple { color: #9b59b6; }
-
-        .telegram-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 136, 204, 0.05);
-            border: 1px solid #0088cc;
-            padding: 12px;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.75rem;
-            margin: 30px 0;
-        }
-        .telegram-btn i { margin-right: 10px; color: #0088cc; }
-    </style>
+  <meta charset="UTF-8">
+  <title>AI Tools Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-<div class="container">
+<body class="bg-gradient-to-b from-gray-900 to-black text-white">
+
+<!-- Navbar -->
+<div class="flex justify-between items-center p-4 border-b border-gray-700">
+  <h1 class="text-xl font-bold">Ko Paing</h1>
+  <div class="space-x-4">
+    <a href="#" class="hover:text-blue-400">Home</a>
+    <a href="#tools" class="hover:text-blue-400">AI Tools</a>
+  </div>
+</div>
+
+<!-- AI Tools -->
+<section id="tools" class="p-6">
+  <h2 class="text-lg font-semibold mb-4">AI TOOLS</h2>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
     
-    <h3 class="section-title blue-title">AI TOOLS</h3>
-    <div class="card-grid">
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-file-invoice icon-blue"></i>
-            </div>
-            <h4>SRT Translator</h4>
-            <p>Batch Subtitles Translation</p>
-        </div>
-
-        <div class="tool-card" onclick="location.href='transcript.html'">
-            <div class="icon-bg">
-                <i class="fas fa-file-alt icon-blue"></i>
-            </div>
-            <h4>Transcript AI</h4>
-            <p>Audio to Text</p>
-        </div>
-
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-image icon-pink"></i>
-            </div>
-            <h4>Thumbnail AI</h4>
-            <p>Image Gen</p>
-        </div>
-
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-volume-up icon-green"></i>
-            </div>
-            <h4>Text to Speech</h4>
-            <p>Voice AI</p>
-        </div>
-    </div>
-
-    <h3 class="section-title purple-title">VIDEO TOOLS</h3>
-    <div class="card-grid">
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-video icon-purple"></i>
-            </div>
-            <h4>Video Editor</h4>
-            <p>Online Editing</p>
-        </div>
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-magic icon-blue"></i>
-            </div>
-            <h4>Recapper AI</h4>
-            <p>Video Summarizer</p>
-        </div>
-    </div>
-
-    <a href="https://t.me/your_telegram_link" class="telegram-btn">
-        <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
+    <a href="transcript.html" class="bg-gray-800 p-6 rounded-xl hover:bg-gray-700">
+      <h3 class="text-lg">Transcript AI</h3>
+      <p class="text-sm text-gray-400">Audio to Text</p>
     </a>
 
+    <a href="thumbnail.html" class="bg-gray-800 p-6 rounded-xl hover:bg-gray-700">
+      <h3 class="text-lg">Thumbnail AI</h3>
+      <p class="text-sm text-gray-400">Image Generator</p>
+    </a>
+
+    <a href="tts.html" class="bg-gray-800 p-6 rounded-xl hover:bg-gray-700">
+      <h3 class="text-lg">Text to Speech</h3>
+      <p class="text-sm text-gray-400">Voice AI</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- Video Tools -->
+<section class="p-6">
+  <h2 class="text-lg font-semibold mb-4">VIDEO TOOLS</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+    <div class="bg-gray-800 p-6 rounded-xl">
+      <h3>Video Editor</h3>
+      <p class="text-sm text-gray-400">Online Editing</p>
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl">
+      <h3>Recapper AI</h3>
+      <p class="text-sm text-gray-400">Video Summary</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Telegram -->
+<div class="p-6">
+  <a href="https://t.me/yourchannel" 
+     class="block text-center bg-blue-600 p-4 rounded-full hover:bg-blue-500">
+     Join our Telegram Channel
+  </a>
+</div>
+
+<!-- Premium -->
+<section class="p-6">
+  <h2 class="text-lg font-semibold mb-4">PREMIUM FEATURES</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    
+    <div class="bg-gray-800 p-6 rounded-xl">
+      ⚡ Fast Processing
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl">
+      🔒 Secure & Private
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl">
+      ✨ High Quality AI
+    </div>
+
+    <div class="bg-gray-800 p-6 rounded-xl">
+      📱 Mobile Friendly
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="text-center p-4 text-gray-500">
+  © 2026 AI Tools Website
 </div>
 
 </body>
