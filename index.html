@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* ဒီနေရာမှာ CSS တွေကို တစ်ခါတည်း ထည့်ပေးထားပါတယ် */
         body {
-            background-color: #0b1426; /* Dark Navy Background */
+            background-color: #0b1426;
             color: white;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
@@ -22,77 +21,124 @@
         }
 
         .section-title {
-            font-size: 0.9rem;
-            color: #8a99af;
-            margin: 20px 0 10px 0;
-            border-left: 3px solid #9b59b6;
-            padding-left: 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
         }
 
-        /* Card များကို ဘေးတိုက်စီရန် */
+        .section-title::before {
+            content: "";
+            width: 3px;
+            height: 15px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        /* အရောင်ခွဲခြားခြင်း */
+        .blue-title::before { background-color: #3498db; }
+        .purple-title::before { background-color: #9b59b6; }
+
         .card-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
+        }
+
+        /* ၃ ခုရှိတဲ့နေရာမှာ တစ်ခုကို အောက်တန်းပို့ဖို့ */
+        .three-columns {
+            grid-template-columns: 1fr 1fr;
         }
 
         .tool-card {
             background-color: #16213e;
-            border: 1px solid #252d44;
-            padding: 20px;
+            border: 1px solid #1e293b;
+            padding: 20px 10px;
             border-radius: 12px;
             text-align: center;
         }
 
         .tool-card i {
-            font-size: 1.5rem;
-            color: #4e89fe;
+            font-size: 1.4rem;
             margin-bottom: 10px;
         }
 
-        .tool-card h4 { margin: 5px 0; font-size: 1rem; }
-        .tool-card p { font-size: 0.75rem; color: #8a99af; margin: 0; }
+        .tool-card h4 { margin: 5px 0; font-size: 0.9rem; }
+        .tool-card p { font-size: 0.7rem; color: #8a99af; margin: 0; }
 
-        /* Telegram Button */
+        /* Icon Colors */
+        .icon-blue { color: #3498db; }
+        .icon-pink { color: #e91e63; }
+        .icon-green { color: #2ecc71; }
+        .icon-purple { color: #9b59b6; }
+
         .telegram-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 136, 204, 0.1);
+            background: rgba(0, 136, 204, 0.05);
             border: 1px solid #0088cc;
             padding: 12px;
             border-radius: 50px;
             color: white;
             text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             margin: 25px 0;
         }
 
-        .telegram-btn i { margin-right: 10px; color: #0088cc; }
+        .telegram-btn i {
+            margin-right: 10px;
+            background-color: #0088cc;
+            color: white;
+            padding: 4px;
+            border-radius: 50%;
+            font-size: 0.6rem;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h3 class="section-title">VIDEO TOOLS</h3>
     
+    <h3 class="section-title blue-title">AI TOOLS</h3>
     <div class="card-grid">
         <div class="tool-card">
-            <i class="fas fa-video"></i>
+            <i class="fas fa-file-alt icon-blue"></i>
+            <h4>Transcript AI</h4>
+            <p>Audio to Text</p>
+        </div>
+        <div class="tool-card">
+            <i class="fas fa-image icon-pink"></i>
+            <h4>Thumbnail AI</h4>
+            <p>Image Gen</p>
+        </div>
+        <div class="tool-card">
+            <i class="fas fa-volume-up icon-green"></i>
+            <h4>Text to Speech</h4>
+            <p>Voice AI</p>
+        </div>
+    </div>
+
+    <h3 class="section-title purple-title">VIDEO TOOLS</h3>
+    <div class="card-grid">
+        <div class="tool-card">
+            <i class="fas fa-video icon-purple"></i>
             <h4>Video Editor</h4>
             <p>Online Editing</p>
         </div>
-
         <div class="tool-card">
-            <i class="fas fa-magic"></i>
+            <i class="fas fa-magic icon-blue"></i>
             <h4>Recapper AI</h4>
             <p>Video Summarizer</p>
         </div>
     </div>
 
     <a href="#" class="telegram-btn">
-        <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY Telegram Channel
+        <i class="fab fa-telegram-plane"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
     </a>
+
 </div>
 
 </body>
