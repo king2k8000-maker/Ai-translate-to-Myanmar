@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tools Design</title>
+    <title>AI Translate to Myanmar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
         body {
             background-color: #0b1426;
@@ -16,142 +15,160 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 450px;
             margin: auto;
         }
 
-        .section-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 25px 0 15px 0;
+        header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-bottom: 25px;
         }
 
-        .section-title::before {
-            content: "";
-            width: 3px;
-            height: 15px;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
-        .blue-title::before { background-color: #3498db; }
-        .purple-title::before { background-color: #9b59b6; }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .tool-card {
+        .step-container {
             background-color: #16213e;
-            border: 1px solid #1e293b;
-            padding: 20px 10px;
-            border-radius: 15px;
-            text-align: center;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #252d44;
         }
 
-        .icon-bg {
-            background-color: rgba(78, 137, 254, 0.1);
-            width: 50px;
-            height: 50px;
+        .step-header {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
+            gap: 10px;
+        }
+
+        .step-header span { color: #8a99af; text-transform: uppercase; }
+
+        /* API Access Box */
+        .input-box {
+            background-color: #0f172a;
+            border: 1px solid #334155;
             border-radius: 12px;
-        }
-
-        .tool-card i { font-size: 1.4rem; }
-        .tool-card h4 { margin: 5px 0; font-size: 0.95rem; }
-        .tool-card p { font-size: 0.7rem; color: #8a99af; margin: 0; }
-
-        /* Colors */
-        .icon-blue { color: #3498db; }
-        .icon-pink { color: #e91e63; }
-        .icon-green { color: #2ecc71; }
-        .icon-purple { color: #9b59b6; }
-
-        .telegram-btn {
+            padding: 12px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: rgba(0, 136, 204, 0.05);
-            border: 1px solid #0088cc;
-            padding: 12px;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.75rem;
-            margin: 30px 0;
+            gap: 10px;
         }
-        .telegram-btn i { margin-right: 10px; color: #0088cc; }
+
+        .input-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            flex: 1;
+            outline: none;
+        }
+
+        /* Upload Box */
+        .upload-area {
+            border: 2px dashed #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .upload-area i { font-size: 2rem; color: #4e89fe; margin-bottom: 10px; }
+
+        /* Selection Box */
+        .select-group {
+            margin-bottom: 15px;
+        }
+
+        .select-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: #8a99af;
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            background-color: #0f172a;
+            color: white;
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .status-badge {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 5px;
+            float: right;
+        }
+
+        .process-btn {
+            width: 100%;
+            background-color: #4e89fe;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    
-    <h3 class="section-title blue-title">AI TOOLS</h3>
-    <div class="card-grid">
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-file-invoice icon-blue"></i>
-            </div>
-            <h4>SRT Translator</h4>
-            <p>Batch Subtitles Translation</p>
-        </div>
+    <header>
+        <i class="fas fa-bars"></i>
+        <h3>AI Translate to Myanmar</h3>
+        <i class="fas fa-cog" style="color: #f1c40f;"></i>
+    </header>
 
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-file-alt icon-blue"></i>
-            </div>
-            <h4>Transcript AI</h4>
-            <p>Audio to Text</p>
+    <div class="step-container">
+        <div class="step-header">
+            <span>STEP 1</span> <b>API Access</b>
+            <div class="status-badge">CONNECTED</div>
         </div>
-
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-image icon-pink"></i>
-            </div>
-            <h4>Thumbnail AI</h4>
-            <p>Image Gen</p>
-        </div>
-
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-volume-up icon-green"></i>
-            </div>
-            <h4>Text to Speech</h4>
-            <p>Voice AI</p>
+        <div class="input-box">
+            <i class="fas fa-key"></i>
+            <input type="password" value="AIzaSyClw9wm5sFlztBU_c">
+            <i class="fas fa-eye-slash"></i>
         </div>
     </div>
 
-    <h3 class="section-title purple-title">VIDEO TOOLS</h3>
-    <div class="card-grid">
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-video icon-purple"></i>
-            </div>
-            <h4>Video Editor</h4>
-            <p>Online Editing</p>
+    <div class="step-container">
+        <div class="step-header">
+            <span>STEP 2</span> <b>Media Upload</b>
         </div>
-        <div class="tool-card">
-            <div class="icon-bg">
-                <i class="fas fa-magic icon-blue"></i>
-            </div>
-            <h4>Recapper AI</h4>
-            <p>Video Summarizer</p>
+        <div class="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <div><b>Click or Drag & Drop</b></div>
+            <p style="font-size: 0.7rem; color: #8a99af;">MP4, MP3, WAV, MKV (Max 500MB)</p>
         </div>
     </div>
 
-    <a href="#" class="telegram-btn">
-        <i class="fab fa-telegram"></i> JOIN OUR COMMUNITY <b>Telegram Channel</b>
-    </a>
+    <div class="step-container">
+        <div class="step-header">
+            <span>STEP 3</span> <b>Language Selection</b>
+        </div>
+        <div class="select-group">
+            <label>AUDIO LANGUAGE</label>
+            <select>
+                <option>Auto-detect Language</option>
+            </select>
+        </div>
+        <div class="select-group">
+            <label>OUTPUT LANGUAGE</label>
+            <select>
+                <option>Burmese (မြန်မာဘာသာ)</option>
+            </select>
+        </div>
+    </div>
 
+    <button class="process-btn">START PROCESSING</button>
 </div>
 
 </body>
