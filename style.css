@@ -1,87 +1,53 @@
+/* Background တစ်ခုလုံးကို အရောင်မှောင်ထားမယ် */
 body {
-    background-color: #080d1a;
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding-bottom: 50px;
+    background-color: #0b1426;
+    color: white;
+    font-family: sans-serif;
+    padding: 20px;
 }
 
-.nav-container {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid #1a2436;
-}
-
-.logo { font-weight: bold; margin-right: 20px; }
-.menu a { color: #8a99af; text-decoration: none; margin-right: 15px; font-size: 0.9rem; }
-.settings-icon { margin-left: auto; color: #f1c40f; }
-
-.content-wrapper { padding: 20px; max-width: 600px; margin: auto; }
-
-.section-title {
-    font-size: 0.8rem;
-    margin: 25px 0 15px 0;
-    display: flex;
-    align-items: center;
-}
-
-.section-title span {
-    width: 3px;
-    height: 15px;
-    display: inline-block;
-    margin-right: 10px;
-    border-radius: 2px;
-}
-
-.blue-line { background-color: #3498db; }
-.purple-line { background-color: #9b59b6; }
-.yellow-line { background-color: #f1c40f; }
-
-.grid-container {
+/* Card တွေကို ဘေးတိုက်စီဖို့ Grid သုံးမယ် */
+.card-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr 1fr; /* တစ်တန်းကို နှစ်ခုစီ */
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-.card {
-    background-color: #121a2d;
-    border: 1px solid #1e293b;
+/* Card တစ်ခုချင်းစီရဲ့ Design */
+.tool-card {
+    background-color: #16213e; /* Card အရောင် */
+    border: 1px solid #252d44;
+    padding: 20px;
     border-radius: 12px;
-    padding: 20px 10px;
     text-align: center;
 }
 
-.card i { font-size: 1.5rem; margin-bottom: 10px; }
-.card h4 { font-size: 0.8rem; margin: 5px 0; }
-.card p { font-size: 0.6rem; color: #8a99af; margin: 0; }
+.tool-card i {
+    font-size: 1.5rem;
+    color: #4e89fe;
+    margin-bottom: 10px;
+}
 
-.telegram-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to right, #0088cc22, #0088cc55);
+.tool-card h4 {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+.tool-card p {
+    font-size: 0.75rem;
+    color: #8a99af;
+}
+
+/* Telegram Button Design */
+.telegram-btn {
+    display: block;
+    text-align: center;
     border: 1px solid #0088cc;
-    border-radius: 50px;
     padding: 12px;
+    border-radius: 50px;
+    color: #0088cc;
     text-decoration: none;
-    color: white;
-    font-size: 0.7rem;
-    margin: 30px 0;
+    font-size: 0.8rem;
+    margin: 20px 0;
 }
-
-.feature-card {
-    background-color: #121a2d;
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    align-items: start;
-    grid-column: span 1.5; /* Layout adjustment */
-}
-
-/* Color Classes */
-.icon-blue { color: #3498db; }
-.icon-pink { color: #e91e63; }
-.icon-green { color: #2ecc71; }
-.icon-purple { color: #9b59b6; }
