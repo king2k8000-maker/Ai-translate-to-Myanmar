@@ -1,65 +1,67 @@
-:root {
-    --bg-dark: #0f172a;
-    --card-bg: #1e293b;
-    --primary-blue: #3b82f6;
-    --text-main: #f8fafc;
-    --text-dim: #94a3b8;
-    --accent-yellow: #fbbf24;
-}
-
+/* အခြေခံ အပြင်အဆင် */
 body {
-    background-color: var(--bg-dark);
-    color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #0f172a;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     justify-content: center;
 }
 
 .container {
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
 }
 
+/* ခေါင်းစဉ်ပိုင်း */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 10px;
 }
 
-header h1 { font-size: 1.5rem; margin: 0; }
+header h1 {
+    color: #3b82f6;
+    font-size: 1.4rem;
+    margin: 10px 0;
+}
 
+/* Step တစ်ခုချင်းစီ၏ Card ပုံစံ */
 .step-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 20px;
+    background-color: #1e293b;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
     border: 1px solid #334155;
 }
 
-.step-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.step-title {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
-.step-title { color: var(--text-dim); font-size: 0.9rem; font-weight: 600; }
-.status-badge { color: #10b981; font-size: 0.8rem; font-weight: bold; }
-
+/* File တင်သည့်နေရာ */
 .upload-area {
     border: 2px dashed #334155;
     border-radius: 12px;
-    padding: 40px 20px;
+    padding: 30px 10px;
     text-align: center;
     cursor: pointer;
+    display: block;
     transition: 0.3s;
 }
 
-.upload-area:hover { border-color: var(--primary-blue); background: #1e293b; }
+.upload-area:hover {
+    background: #1e293b;
+    border-color: #3b82f6;
+}
 
+/* ရွေးချယ်စရာ Box များ */
 .select-box {
     background: #0f172a;
     border: 1px solid #334155;
@@ -67,32 +69,36 @@ header h1 { font-size: 1.5rem; margin: 0; }
     padding: 12px;
     width: 100%;
     border-radius: 8px;
-    margin-top: 10px;
+    margin-top: 5px;
+    font-size: 0.9rem;
 }
 
+/* Start Processing ခလုတ် */
 .start-btn {
     background: #1e293b;
-    color: var(--text-dim);
+    color: white;
     width: 100%;
-    padding: 18px;
+    padding: 15px;
     border-radius: 12px;
     border: 1px solid #334155;
     font-weight: bold;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+    margin-top: 10px;
     transition: 0.3s;
 }
 
-.start-btn:hover { background: #334155; color: white; }
+.start-btn:hover {
+    background: #334155;
+}
 
+/* ရလဒ်ပြသည့်နေရာ */
 .output-box {
     background: #0f172a;
     padding: 15px;
     border-radius: 8px;
-    min-height: 100px;
-    margin-top: 15px;
+    min-height: 80px;
     border: 1px solid #334155;
+    margin-top: 10px;
+    color: #cbd5e1;
+    font-size: 0.9rem;
 }
