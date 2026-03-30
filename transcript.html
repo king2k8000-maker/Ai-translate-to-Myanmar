@@ -1,7 +1,41 @@
-<div class="card" onclick="location.href='transcript.html'" style="cursor: pointer;">
-    <div class="icon-container">
-        <i class="fas fa-microphone"></i>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcript AI - Audio to Text</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button onclick="location.href='index.html'" style="background:none; border:none; color:white; cursor:pointer;">
+                <i class="fas fa-arrow-left"></i> နောက်သို့
+            </button>
+            <h1>Transcript AI</h1>
+            <p>Audio to Text (Myanmar Translation)</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <input type="file" id="audioFile" accept="audio/*,video/*" hidden>
+                <label for="audioFile" class="upload-box">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p id="fileNameDisplay">Select audio or video file</p>
+                </label>
+            </div>
+
+            <button class="primary-btn" onclick="startProcessing()">START PROCESSING</button>
+
+            <div class="result-section">
+                <h3>Output Result</h3>
+                <div id="outputArea" class="output-box">ရလဒ်ကို ဤနေရာတွင် ပြသပါမည်...</div>
+                <button class="secondary-btn" onclick="downloadSRT()">Download .SRT</button>
+            </div>
+        </main>
     </div>
-    <h3>Transcript AI</h3>
-    <p>Audio to Text</p>
-</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
