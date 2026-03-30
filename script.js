@@ -1,40 +1,58 @@
-const startBtn = document.getElementById('startBtn');
-const audioInput = document.getElementById('audioInput');
-const fileNameDisplay = document.getElementById('fileNameDisplay');
-const outputArea = document.getElementById('outputArea');
-const srtOutput = document.getElementById('srtOutput');
+const API_KEY = "ဒီနေရာမှာ_သင့်ရဲ့_API_KEY_ကို_ထည့်ပါ"; 
 
-// ဖိုင်ရွေးလိုက်တဲ့အခါ အမည်ပြခြင်း
-audioInput.onchange = (e) => {
-    const file = e.target.files[0];
-    if (file) fileNameDisplay.innerText = `Selected: ${file.name}`;
-};
-
-// Start Processing နှိပ်တဲ့အခါ
-startBtn.onclick = () => {
-    startBtn.innerText = "Processing...";
-    // ဒီနေရာမှာ သင့်ရဲ့ Gemini API Call logic ကို ထည့်ရပါမယ်
+async function startProcessing() {
+    const fileInput = document.getElementById('audioFile');
+    const outputDiv = document.getElementById('outputArea');
     
-    // စမ်းသပ်ရန် (Demo Output)
-    setTimeout(() => {
-        outputArea.classList.remove('hidden');
-        srtOutput.innerText = `1\n00:00:01,000 --> 00:00:03,000\nမင်္ဂလာပါ ခင်ဗျာ။\n\n2\n00:00:03,500 --> 00:00:06,000\nကျွန်တော်ကတော့ AI ဖြစ်ပါတယ်။`;
-        startBtn.innerText = "COMPLETED ✅";
-    }, 2000);
-};
+    if (fileInput.files.length === 0) {
+        alert("ကျေးဇူးပြု၍ အသံဖိုင်အရင်ရွေးချယ်ပါ");
+        return;
+    }
 
-// SRT Download ဆွဲရန်
-function downloadSRT() {
-    const text = srtOutput.innerText;
-    const blob = new Blob([text], { type: 'text/srt' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = "myanmar_subtitle.srt";
-    a.click();
+    const file = fileInput.files[0];
+    outputDiv.innerText = "ဘာသာပြန်နေပါပြီ... ခဏစောင့်ပေးပါ...";
+
+    try {
+        const base64Data = await fileToBase64(file);
+        
+        // AI ကို အစအဆုံး အပြည့်အစုံ ပြန်ခိုင်းသည့် ညွှန်ကြားချက်
+        const prompt = "Transcribe the ENTIRE audio file from start to finish. Provide a word-for-word Myanmar translation in SRT format. Do not skip any parts. Include every spoken sentence with accurate timestamps.";
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        { inline_data: { mime_type: file.type, data: base64Data } }
+                    ]
+                }],
+                generationConfig: {
+                    maxOutputTokens: 8192,
+                    temperature: 0.1
+                }
+            })
+        });
+
+        const result = await response.json();
+        const translatedText = result.candidates[0].content.parts[0].text;
+        
+        // Website မျက်နှာပြင်ပေါ်တွင် အဖြေထုတ်ပေးခြင်း
+        outputDiv.innerText = translatedText;
+        document.getElementById('srtOutput').innerText = translatedText;
+        document.getElementById('statusLabel').innerText = "COMPLETED ✅";
+
+    } catch (error) {
+        outputDiv.innerText = "အမှားတစ်ခုရှိနေပါသည်: " + error.message;
+    }
 }
 
-// MP3 Download ဆွဲရန်
-document.getElementById('downloadMp3Btn').onclick = () => {
-    alert("MP3 ဖိုင်ကို Download ဆွဲနေပါပြီ...");
-};
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
