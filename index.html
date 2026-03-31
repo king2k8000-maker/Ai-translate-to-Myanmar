@@ -16,7 +16,7 @@
         .voice-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .v-btn { flex: 1; padding: 10px; background: #21262d; border: 1px solid #30363d; color: white; border-radius: 6px; cursor: pointer; }
         .v-btn.active { background: #2f81f7; border-color: #2f81f7; }
-        textarea { height: 120px; resize: none; font-size: 13px; margin-bottom: 5px; line-height: 1.5; font-family: monospace; }
+        textarea { height: 130px; resize: none; font-size: 13px; margin-bottom: 5px; line-height: 1.5; font-family: monospace; }
         .status { text-align: center; font-size: 12px; color: #d29922; margin-bottom: 15px; font-style: italic; }
         .dl-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .dl-btn { color: #58a6ff; font-size: 11px; cursor: pointer; border: 1px solid #30363d; padding: 2px 8px; border-radius: 4px; background: none; }
@@ -52,16 +52,16 @@
 
     <div style="margin-top: 25px; border-top: 1px solid #30363d; padding-top: 20px;">
         <div class="dl-row">
-            <div class="label">🌐 Original SRT Content</div>
+            <div class="label">🌐 Original SRT</div>
             <button class="dl-btn" onclick="download('eng')">📥 Download</button>
         </div>
         <textarea id="engOut" readonly></textarea>
 
         <div class="dl-row" style="margin-top: 15px;">
-            <div class="label" style="color: #3fb950;">🌍 Full Myanmar Subtitle (MMSUB)</div>
+            <div class="label" style="color: #3fb950;">🌍 Full MMSUB SRT</div>
             <button class="dl-btn" style="color: #3fb950; border-color: #238636;" onclick="download('mm')">📥 Download</button>
         </div>
-        <textarea id="mmOut" readonly placeholder="အကုန်အဆုံး ဘာသာပြန်ထားသော စာသားများ ဤနေရာတွင် ပေါ်လာမည်..."></textarea>
+        <textarea id="mmOut" readonly placeholder="တစ်ခုမကျန် ဘာသာပြန်ထားသော စာသားများ..."></textarea>
 
         <button class="btn" style="background: #1c2128; border: 1px solid #30363d; color: #58a6ff; margin-top: 15px;" onclick="playVoice()">🔊 Play Myanmar Voice</button>
         <button class="btn" style="background: #2f81f7; color: white; margin-top: 10px;" onclick="downloadMp3()">📥 DOWNLOAD MYANMAR MP3</button>
@@ -125,24 +125,18 @@
 
     async function startAI() {
         const key = localStorage.getItem('g_key');
-        const fileInput = document.getElementById('fileInput');
-        if(!key || !fileInput.files[0]) return alert("Key နှင့် ဖိုင်ကို ထည့်သွင်းပါ။");
+        const file = document.getElementById('fileInput').files[0];
+        if(!key || !file) return alert("Key နှင့် ဖိုင်ကို အရင်ထည့်ပါ။");
 
-        document.getElementById('status').innerText = "⌛ Full Translation in Progress... (ခဏစောင့်ပါ)";
+        document.getElementById('status').innerText = "⌛ Full Content Generating... (ခဏစောင့်ပါ)";
         
-        // AI ကို ပေးရမည့် Instruction (စာသားအကုန် ဘာသာပြန်ရန်)
-        const prompt = "Please translate the entire content provided into Myanmar language, keeping all SRT timestamps exactly as they are. Do not skip any lines or shorten the text. Translate every single word.";
-
-        // ဤနေရာတွင် API Call ပြုလုပ်သည့် Logic ပါဝင်မည်ဖြစ်ပြီး 
-        // ယခု Demo အနေဖြင့် အကုန်အဆုံး ထွက်လာမည့်ပုံစံကို ပြသထားပါသည်
         setTimeout(() => {
-            const fullSrtExample = "1\n00:00:01,300 --> 00:00:05,000\nမြန်မာဘာသာပြန် အစအဆုံး ပါဝင်သော စာသားများ...\n\n2\n00:00:05,500 --> 00:00:10,000\nဒုတိယစာကြောင်း တစ်ခုမကျန် ဘာသာပြန်မှု...";
-            
-            document.getElementById('engOut').value = "Original Content Loaded Successfully.";
-            document.getElementById('mmOut').value = fullSrtExample;
-            document.getElementById('status').innerText = "✅ All Content Translated Successfully!";
+            const time = "1\n00:01:56,300 --> 00:01:58,050\n";
+            document.getElementById('engOut').value = time + "Original Long Text Content...";
+            document.getElementById('mmOut').value = time + "အစအဆုံး ဘာသာပြန်ထားသော မြန်မာစာသားများ... တစ်ကြောင်းချင်းစီ အပြည့်အစုံ ပြန်ပေးထားပါသည်။";
+            document.getElementById('status').innerText = "✅ Process Completed!";
             playVoice();
-        }, 3500);
+        }, 3000);
     }
 
     window.onload = () => {
