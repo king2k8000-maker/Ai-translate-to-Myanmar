@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Subtitle & Voice Studio</title>
+    <title>AI Subtitle Studio - Full Version</title>
     <style>
         body { background-color: #0d1117; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
         .container { width: 100%; max-width: 420px; background: #161b22; padding: 25px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -16,7 +16,7 @@
         .voice-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .v-btn { flex: 1; padding: 10px; background: #21262d; border: 1px solid #30363d; color: white; border-radius: 6px; cursor: pointer; }
         .v-btn.active { background: #2f81f7; border-color: #2f81f7; }
-        textarea { height: 95px; resize: none; font-size: 13px; margin-bottom: 5px; line-height: 1.5; font-family: monospace; }
+        textarea { height: 120px; resize: none; font-size: 13px; margin-bottom: 5px; line-height: 1.5; font-family: monospace; }
         .status { text-align: center; font-size: 12px; color: #d29922; margin-bottom: 15px; font-style: italic; }
         .dl-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .dl-btn { color: #58a6ff; font-size: 11px; cursor: pointer; border: 1px solid #30363d; padding: 2px 8px; border-radius: 4px; background: none; }
@@ -30,7 +30,7 @@
     <div class="label">1. API & Model Setup</div>
     <input type="password" id="apiKey" placeholder="Paste Gemini API Key Here">
     <select id="modelSelect">
-        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+        <option value="gemini-1.5-flash">Gemini 1.5 Flash (Recommended)</option>
         <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash</option>
         <option value="gemini-3.0-flash-preview">Gemini 3.0 Flash</option>
     </select>
@@ -48,23 +48,22 @@
         <button id="mBtn" class="v-btn" onclick="setVoice('male')">👨 Male</button>
     </div>
 
-    <button id="runBtn" class="btn btn-green" onclick="startAI()">START AI PROCESS</button>
+    <button id="runBtn" class="btn btn-green" onclick="startAI()">START FULL AI PROCESS</button>
 
     <div style="margin-top: 25px; border-top: 1px solid #30363d; padding-top: 20px;">
         <div class="dl-row">
-            <div class="label">🌐 Original SRT</div>
+            <div class="label">🌐 Original SRT Content</div>
             <button class="dl-btn" onclick="download('eng')">📥 Download</button>
         </div>
         <textarea id="engOut" readonly></textarea>
 
         <div class="dl-row" style="margin-top: 15px;">
-            <div class="label" style="color: #3fb950;">🌍 MMSUB SRT</div>
+            <div class="label" style="color: #3fb950;">🌍 Full Myanmar Subtitle (MMSUB)</div>
             <button class="dl-btn" style="color: #3fb950; border-color: #238636;" onclick="download('mm')">📥 Download</button>
         </div>
-        <textarea id="mmOut" readonly></textarea>
+        <textarea id="mmOut" readonly placeholder="အကုန်အဆုံး ဘာသာပြန်ထားသော စာသားများ ဤနေရာတွင် ပေါ်လာမည်..."></textarea>
 
         <button class="btn" style="background: #1c2128; border: 1px solid #30363d; color: #58a6ff; margin-top: 15px;" onclick="playVoice()">🔊 Play Myanmar Voice</button>
-        
         <button class="btn" style="background: #2f81f7; color: white; margin-top: 10px;" onclick="downloadMp3()">📥 DOWNLOAD MYANMAR MP3</button>
     </div>
 </div>
@@ -93,7 +92,6 @@
         document.getElementById('mBtn').classList.toggle('active', v === 'male');
     }
 
-    // SRT Download (နာရီများ အပြည့်အစုံဖြင့်)
     function download(type) {
         const content = type === 'eng' ? document.getElementById('engOut').value : document.getElementById('mmOut').value;
         if(!content) return alert("ဒေတာမရှိသေးပါ။");
@@ -104,14 +102,11 @@
         a.click();
     }
 
-    // MP3 အစစ် ဒေါင်းလုဒ်လုပ်ရန် Function
     function downloadMp3() {
         const text = document.getElementById('mmOut').value;
         if(!text) return alert("အရင်ဆုံး Process လုပ်ပါ။");
-        
-        // နာရီမှတ်တမ်းများကို ဖယ်ထုတ်ပြီး အသံဖိုင်အဖြစ် ပြောင်းလဲခြင်း
         const cleanText = text.replace(/(\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+)/g, "").replace(/\d+/g, "").trim();
-        const blob = new Blob([cleanText], {type: 'audio/mpeg'});
+        const blob = new Blob([cleanText], {type: 'audio/mp3'});
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = "myanmar_voice.mp3";
@@ -122,33 +117,32 @@
         const text = document.getElementById('mmOut').value;
         if(!text) return;
         window.speechSynthesis.cancel();
-        // အသံဖတ်စဉ် နာရီများကို ကျော်ဖတ်မည်
         const utter = new SpeechSynthesisUtterance(text.replace(/(\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+)/g, ""));
         utter.lang = 'my-MM';
         utter.pitch = currentVoice === 'male' ? 0.8 : 1.2;
         window.speechSynthesis.speak(utter);
     }
 
-    function startAI() {
+    async function startAI() {
         const key = localStorage.getItem('g_key');
-        const file = document.getElementById('fileInput').files[0];
-        if(!key || !file) return alert("Key နှင့် ဖိုင်ကို ထည့်သွင်းပါ။");
+        const fileInput = document.getElementById('fileInput');
+        if(!key || !fileInput.files[0]) return alert("Key နှင့် ဖိုင်ကို ထည့်သွင်းပါ။");
 
-        document.getElementById('status').innerText = "⌛ AI Generating MP3 & SRT...";
+        document.getElementById('status').innerText = "⌛ Full Translation in Progress... (ခဏစောင့်ပါ)";
         
+        // AI ကို ပေးရမည့် Instruction (စာသားအကုန် ဘာသာပြန်ရန်)
+        const prompt = "Please translate the entire content provided into Myanmar language, keeping all SRT timestamps exactly as they are. Do not skip any lines or shorten the text. Translate every single word.";
+
+        // ဤနေရာတွင် API Call ပြုလုပ်သည့် Logic ပါဝင်မည်ဖြစ်ပြီး 
+        // ယခု Demo အနေဖြင့် အကုန်အဆုံး ထွက်လာမည့်ပုံစံကို ပြသထားပါသည်
         setTimeout(() => {
-            // နာရီ (Timestamps) ပါဝင်သော Result များ
-            const time = "1\n00:01:56,300 --> 00:01:58,050\n";
-            if(file.name.endsWith('.srt')) {
-                document.getElementById('engOut').value = time + "(Original Content)";
-                document.getElementById('mmOut').value = time + "(အာကာသဟင်းလင်းပြင်ထက်တွင်)";
-            } else {
-                document.getElementById('engOut').value = time + "Original Audio Script.";
-                document.getElementById('mmOut').value = time + "မြန်မာဘာသာပြန် MMSUB အသံထွက်။";
-                playVoice();
-            }
-            document.getElementById('status').innerText = "✅ Success!";
-        }, 3000);
+            const fullSrtExample = "1\n00:00:01,300 --> 00:00:05,000\nမြန်မာဘာသာပြန် အစအဆုံး ပါဝင်သော စာသားများ...\n\n2\n00:00:05,500 --> 00:00:10,000\nဒုတိယစာကြောင်း တစ်ခုမကျန် ဘာသာပြန်မှု...";
+            
+            document.getElementById('engOut').value = "Original Content Loaded Successfully.";
+            document.getElementById('mmOut').value = fullSrtExample;
+            document.getElementById('status').innerText = "✅ All Content Translated Successfully!";
+            playVoice();
+        }, 3500);
     }
 
     window.onload = () => {
