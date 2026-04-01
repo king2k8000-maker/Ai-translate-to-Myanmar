@@ -1,43 +1,39 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-async function runTask() {
-    const key = document.getElementById("apiKey").value.trim();
+async function handleProcess() {
+    const apiKeyInput = document.getElementById("apiKey").value.trim();
     const fileInput = document.getElementById("fileInput");
     const output = document.getElementById("output");
     const btn = document.getElementById("actionBtn");
-    const modelName = document.getElementById("modelSelect").value;
+    const modelId = document.getElementById("modelSelect").value;
     const task = document.getElementById("taskType").value;
 
-    if (!key) return alert("ကျေးဇူးပြု၍ API Key အရင်ထည့်ပေးပါ 🔑");
-    if (!fileInput.files[0]) return alert("Video၊ Audio သို့မဟုတ် SRT ဖိုင်တစ်ခုခု ရွေးပေးပါ 📁");
+    if (!apiKeyInput) return alert("ကျေးဇူးပြု၍ API Key ထည့်ပါ။");
+    if (!fileInput.files[0]) return alert("ဖိုင်အရင်ရွေးပါ။");
 
     try {
-        // UI Loading State
         btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
-        output.value = "[System]: AI သို့ ဖိုင်ပေးပို့နေပါသည်။ ခေတ္တစောင့်ဆိုင်းပေးပါ...";
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> AI is thinking...';
+        output.value = `[System]: Connecting to ${modelId}...\n[System]: Reading media data...`;
 
-        const genAI = new GoogleGenerativeAI(key);
-        const model = genAI.getGenerativeModel({ model: modelName });
+        const genAI = new GoogleGenerativeAI(apiKeyInput);
+        const model = genAI.getGenerativeModel({ model: modelId });
 
         const file = fileInput.files[0];
-        
-        // Convert file to Base64
         const base64Data = await new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = reject;
+            reader.onerror = (e) => reject(e);
             reader.readAsDataURL(file);
         });
 
-        let prompt = "";
+        let promptText = "";
         if (task === "srt-translate") {
-            prompt = "You are an expert SRT subtitle translator. Translate the following SRT content into Myanmar Language (Unicode). Keep the EXACT SRT format including index numbers and timecodes. Do NOT modify the timecodes. Translate only the text content.";
+            promptText = "Translate this SRT file to Myanmar language. Keep exactly the same SRT timing and format. Output only the translated SRT content.";
         } else {
-            prompt = "Transcribe the following media file content accurately. If speech is in Burmese, use Myanmar Unicode. Provide only the text transcript.";
+            promptText = "Transcribe this media file accurately. If it's in Burmese, use Myanmar Unicode. Return only the transcription.";
         }
 
-        // Call Gemini API
         const result = await model.generateContent([
             {
                 inlineData: {
@@ -45,31 +41,32 @@ async function runTask() {
                     mimeType: file.type || "application/octet-stream"
                 }
             },
-            prompt,
+            promptText
         ]);
 
         const response = await result.response;
-        const resultText = response.text();
-        
-        output.value = resultText || "ရလဒ် မတွေ့ရှိပါ။ ဖိုင်ကို ပြန်စစ်ဆေးပါ။";
+        output.value = response.text();
 
-    } catch (error) {
-        console.error(error);
-        output.value = "Error Occurred: " + error.message + "\n\n(Tip: Model ID မှားယွင်းခြင်း သို့မဟုတ် API Key သက်တမ်းကုန်နေခြင်း ဖြစ်နိုင်ပါသည်။)";
+    } catch (err) {
+        console.error(err);
+        let errorMsg = err.message;
+        if (errorMsg.includes("404")) {
+            errorMsg = "Error 404: ရွေးချယ်ထားသော Model ID ကို ရှာမတွေ့ပါ။ Gemini 1.5 Flash ကို ပြန်ရွေးကြည့်ပါ။";
+        } else if (errorMsg.includes("API key not valid")) {
+            errorMsg = "API Key မှားယွင်းနေပါသည်။ ပြန်စစ်ပေးပါ။";
+        }
+        output.value = "[Error]: " + errorMsg;
     } finally {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-magic mr-2"></i> Start Process';
+        btn.innerHTML = '<i class="fas fa-play mr-2"></i> Start Process';
     }
 }
 
-// Click Event Listener
-document.getElementById("actionBtn").addEventListener("click", runTask);
+document.getElementById("actionBtn").addEventListener("click", handleProcess);
 
-// Copy Tool
 window.copyText = function() {
-    const output = document.getElementById("output");
-    if (!output.value) return;
-    output.select();
+    const area = document.getElementById("output");
+    area.select();
     document.execCommand("copy");
-    alert("Copied to clipboard! ✅");
-}
+    alert("Copied! ✅");
+};
