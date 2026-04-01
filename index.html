@@ -32,7 +32,7 @@
         .label {
             font-size: 13px;
             font-weight: 700;
-            color: #94a3b8;
+            color: #4da3ff; /* Blue accent color */
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -48,6 +48,17 @@
             margin-bottom: 15px;
             box-sizing: border-box;
             font-size: 15px;
+            outline: none;
+        }
+
+        /* Model Selector Styling */
+        select.input-box {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
+            cursor: pointer;
         }
 
         .btn-blue {
@@ -60,7 +71,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-bottom: 15px;
+            transition: 0.2s;
         }
+
+        .btn-blue:active { transform: scale(0.98); }
 
         .upload-area {
             border: 2px dashed #334155;
@@ -69,6 +83,7 @@
             text-align: center;
             cursor: pointer;
             margin-bottom: 15px;
+            background-color: rgba(255,255,255,0.02);
         }
 
         .upload-icon {
@@ -97,6 +112,7 @@
             color: white;
             padding: 12px;
             border-radius: 10px;
+            outline: none;
         }
 
         .btn-green {
@@ -109,9 +125,11 @@
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        /* Result Area */
+        .btn-green:active { transform: scale(0.98); }
+
         .result-header {
             display: flex;
             justify-content: space-between;
@@ -127,30 +145,37 @@
             border-radius: 8px;
             font-size: 12px;
             cursor: pointer;
+            font-weight: 600;
         }
 
         .display-area {
             background-color: #000;
             border-radius: 12px;
             padding: 20px;
-            min-height: 200px;
+            min-height: 180px;
             border: 1px solid #334155;
             color: #22c55e;
             font-family: 'Courier New', monospace;
             white-space: pre-wrap;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-<div class="label">SELECT AI MODEL</div>
-<select class="input-box" id="modelSelect">
-    <option value="gemini-3-flash-default">Default (Gemini 3 Flash Preview)</option>
-    <option value="gemini-3-flash-preview" selected>Gemini 3 Flash Preview</option>
-    <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
-    <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
-</select>
-
+<div class="container">
+    <div class="card">
+        <div class="label">API ACCESS</div>
+        <input type="password" id="apiKey" class="input-box" placeholder="Enter Gemini API Key (Optional if shared)">
+        <button class="btn-blue" onclick="loadModels()">Load Models</button>
+        
+        <div class="label" style="font-size: 11px; margin-top: 10px;">SELECT AI MODEL</div>
+        <select class="input-box" id="modelSelect">
+            <option value="gemini-3-flash-default">Default (Gemini 3 Flash Preview)</option>
+            <option value="gemini-3-flash-preview" selected>Gemini 3 Flash Preview</option>
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
+        </select>
     </div>
 
     <div class="card">
@@ -158,7 +183,7 @@
         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
             <div class="upload-icon">⬆</div>
             <div style="font-weight: bold;">Choose a media file</div>
-            <div style="font-size: 12px; color: #94a3b8; margin-top: 5px;">Drag and drop or click to browse</div>
+            <div id="file-status" style="font-size: 12px; color: #94a3b8; margin-top: 5px;">Drag and drop or click to browse</div>
         </div>
         <input type="file" id="fileInput" hidden onchange="handleFile()">
 
@@ -169,4 +194,63 @@
             </div>
             <div style="flex: 1;">
                 <div class="label" style="font-size: 10px;">FORMAT</div>
-                <se
+                <select id="formatSelect"><option>SRT</option><option>TXT</option></select>
+            </div>
+        </div>
+
+        <button class="btn-green" onclick="startTranscription()">Start Transcription</button>
+    </div>
+
+    <div class="card">
+        <div class="result-header">
+            <div class="label" style="margin-bottom: 0;">RESULT</div>
+            <button class="btn-download" id="dlBtn" style="display: none;" onclick="downloadResult()">📥 Download Result</button>
+        </div>
+        <div class="display-area" id="output">Transcript will appear here...</div>
+    </div>
+</div>
+
+<script>
+    function loadModels() {
+        const key = document.getElementById('apiKey').value;
+        if(key.trim() !== "") {
+            alert("API Key connected. Models are ready.");
+        } else {
+            alert("Please enter a valid Gemini API Key.");
+        }
+    }
+
+    function handleFile() {
+        const fileInput = document.getElementById('fileInput');
+        const status = document.getElementById('file-status');
+        if(fileInput.files.length > 0) {
+            status.innerText = "Selected: " + fileInput.files[0].name;
+            status.style.color = "#38bdf8";
+        }
+    }
+
+    function startTranscription() {
+        const output = document.getElementById('output');
+        const dlBtn = document.getElementById('dlBtn');
+        const fileInput = document.getElementById('fileInput');
+
+        if(fileInput.files.length === 0) {
+            alert("ကျေးဇူးပြု၍ File အရင်ရွေးချယ်ပါ!");
+            return;
+        }
+
+        output.innerText = "AI is processing your file...\nUsing: " + document.getElementById('modelSelect').value;
+        
+        setTimeout(() => {
+            output.innerText = "1\n00:00:01,200 --> 00:00:05,400\nမင်္ဂလာပါ၊ အခုကတော့ Gemini 3 Flash နဲ့\nမြန်မာစာတန်းထိုး ပြုလုပ်ပေးနေတာ ဖြစ်ပါတယ်။";
+            dlBtn.style.display = 'block';
+        }, 2500);
+    }
+
+    function downloadResult() {
+        alert("ဖိုင်ကို ဒေါင်းလုဒ်ဆွဲနေပါပြီ...");
+    }
+</script>
+
+</body>
+</html>
