@@ -1,41 +1,50 @@
-// Gender Selection UI Toggle
-function setGender(type) {
-    const femaleBtn = document.getElementById('femaleBtn');
-    const maleBtn = document.getElementById('maleBtn');
+import streamlit as st
+import google.generativeai as genai
 
-    if (type === 'female') {
-        femaleBtn.classList.replace('bg-[#21262d]', 'bg-[#2f81f7]');
-        femaleBtn.classList.add('border-blue-400');
-        maleBtn.classList.replace('bg-[#2f81f7]', 'bg-[#21262d]');
-        maleBtn.classList.remove('border-blue-400');
-    } else {
-        maleBtn.classList.replace('bg-[#21262d]', 'bg-[#2f81f7]');
-        maleBtn.classList.add('border-blue-400');
-        femaleBtn.classList.replace('bg-[#2f81f7]', 'bg-[#21262d]');
-        femaleBtn.classList.remove('border-blue-400');
-    }
-}
+# 1. UI Setup (GitHub က style အတိုင်း Dark Mode ဖြစ်အောင်)
+st.set_page_config(page_title="AI Translate Myanmar", layout="wide")
 
-// Connect API Interaction
-function connectAPI() {
-    const status = document.getElementById('apiStatus');
-    status.style.display = 'block';
-    console.log("API Key stored and connected.");
-}
+st.markdown("""
+    <style>
+    .stApp { background-color: #0d1117; color: white; }
+    .main-card { background-color: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; }
+    </style>
+    """, unsafe_allow_html=True)
 
-// File Upload Handling
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
+# 2. Sidebar Navigation (GitHub က ပုံစံအတိုင်း Tab များခွဲခြင်း)
+with st.sidebar:
+    st.title("Menu")
+    choice = st.radio("Select Tool", ["Home", "Translation", "Transcription", "TTS"])
+    api_key = st.text_input("Enter Gemini API Key", type="password")
 
-dropZone.onclick = () => fileInput.click();
+# 3. Logic - API ချိတ်ဆက်မှု
+if api_key:
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
-fileInput.onchange = (e) => {
-    if (e.target.files.length > 0) {
-        dropZone.querySelector('p').innerText = e.target.files[0].name;
-        dropZone.style.borderColor = '#2f81f7';
-    }
-};
+# 4. Content Sections
+if choice == "Home":
+    st.title("AI Translate to Myanmar")
+    st.write("GitHub မှ Project ကို Hugging Face တွင် အသုံးပြုရန် ပြင်ဆင်ထားခြင်းဖြစ်သည်။")
 
-function startProcess() {
-    alert("AI Subtitle generation in progress...");
-}
+elif choice == "Translation":
+    st.header("🌐 AI Translation")
+    text_to_translate = st.text_area("ဘာသာပြန်မည့်စာသား ရိုက်ထည့်ပါ...")
+    if st.button("Translate to Myanmar"):
+        if api_key and text_to_translate:
+            prompt = f"Translate this to Myanmar language naturally: {text_to_translate}"
+            response = model.generate_content(prompt)
+            st.success(response.text)
+        else:
+            st.warning("API Key နှင့် စာသား လိုအပ်ပါသည်။")
+
+elif choice == "Transcription":
+    st.header("🎙️ Transcript AI")
+    st.write("Audio ဖိုင်များကို စာသားအဖြစ် ပြောင်းလဲခြင်း (Gemini API ဖြင့်)")
+    audio_file = st.file_uploader("Upload Audio", type=['mp3', 'wav'])
+    # ဒီနေရာမှာ Audio logic ထပ်ထည့်လို့ရပါတယ်
+
+elif choice == "TTS":
+    st.header("🔊 Text to Speech")
+    st.write("စာသားများကို အသံထွက်ဖတ်ပေးမည့် Tool")
+    # TTS logic ထပ်ထည့်ရန်
