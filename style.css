@@ -1,4 +1,1 @@
-body { font-family: 'Inter', sans-serif; background-color: #0b1120; }
-textarea::-webkit-scrollbar { width: 5px; }
-textarea::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 5px; }
-input:focus, select:focus { border-color: #3b82f6; }
+@import "tailwindcss";
