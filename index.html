@@ -3,88 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subtitle Studio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AI Media Processor</title>
     <style>
-        body { background-color: #0d1117; font-family: sans-serif; }
-        .card-bg { background-color: #161b22; border: 1px solid #30363d; }
-        .input-bg { background-color: #0d1117; border: 1px solid #30363d; }
-        .btn-blue { background-color: #238636; } /* ပုံထဲက Start Process က အစိမ်းရောင် */
-        .btn-blue-primary { background-color: #2f81f7; }
-        .status-text { color: #3fb950; font-style: italic; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-color: #f1f5f9;
+            --border-color: #334155;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        select, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .process-btn {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+
+        .download-btn {
+            background-color: #10b981;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .status {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            text-align: center;
+            color: #94a3b8;
+        }
     </style>
 </head>
-<body class="flex justify-center items-center min-h-screen p-4">
+<body>
 
-    <div class="card-bg w-full max-w-md p-6 rounded-xl shadow-xl">
-        <h1 class="text-3xl font-bold text-center text-white mb-8">Subtitle Studio</h1>
+<div class="container">
+    <h2>AI Media Translator</h2>
 
-        <div class="space-y-4">
-            <h2 class="text-blue-400 text-xs font-bold uppercase tracking-wider">1. API & MODEL SETUP</h2>
-            <input type="text" id="apiKey" placeholder="Paste Gemini API Key Here" 
-                class="w-full input-bg text-white rounded-md p-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            
-            <div class="relative">
-                <select id="modelSelect" class="w-full input-bg text-white rounded-md p-3 appearance-none focus:outline-none">
-                    <option>Gemini 3.0 Flash</option>
-                    <option>Gemini 1.5 Pro</option>
-                </select>
-                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">▼</div>
-            </div>
-
-            <button onclick="connectAPI()" class="w-full btn-blue-primary hover:opacity-90 text-white font-bold py-3 rounded-lg transition">
-                Connect API Key
-            </button>
-            <p id="apiStatus" class="status-text text-center text-sm">✅ API Connected!</p>
-        </div>
-
-        <div class="mt-6 space-y-3">
-            <h2 class="text-blue-400 text-xs font-bold uppercase tracking-wider">2. UPLOAD SOURCE (MP3 OR SRT)</h2>
-            <div id="dropZone" class="border-2 border-dashed border-gray-700 rounded-xl p-10 text-center cursor-pointer hover:bg-[#1c2128] transition">
-                <span class="text-2xl text-orange-400">📥</span>
-                <p class="mt-2 text-gray-300 font-medium">Click to Select File</p>
-                <input type="file" id="fileInput" class="hidden">
-            </div>
-        </div>
-
-        <div class="flex gap-3 mt-6">
-            <button id="femaleBtn" onclick="setGender('female')" class="flex-1 bg-[#2f81f7] py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 border border-blue-400">
-                👩 Female
-            </button>
-            <button id="maleBtn" onclick="setGender('male')" class="flex-1 bg-[#21262d] py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 border border-gray-700">
-                👦 Male
-            </button>
-        </div>
-
-        <button onclick="startProcess()" class="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-lg text-lg mt-6 shadow-lg uppercase tracking-widest">
-            START AI PROCESS
-        </button>
-
-        <div class="h-[1px] bg-gray-800 my-8"></div>
-
-        <div class="space-y-6">
-            <div>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-[#58a6ff] text-[10px] font-extrabold flex items-center gap-1">🌐 ORIGINAL SRT</span>
-                    <button class="bg-[#21262d] border border-gray-700 px-3 py-1 rounded text-[10px] text-orange-400 font-bold flex items-center gap-1 hover:bg-gray-800">
-                        📥 Download
-                    </button>
-                </div>
-                <div class="w-full h-36 input-bg rounded-lg p-3 text-sm text-gray-500 overflow-y-auto"></div>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-[#3fb950] text-[10px] font-extrabold flex items-center gap-1">🌍 MMSUB SRT</span>
-                    <button class="border border-[#238636] px-3 py-1 rounded text-[10px] text-[#3fb950] font-bold flex items-center gap-1 hover:bg-[#23863622]">
-                        📥 Download
-                    </button>
-                </div>
-                <div class="w-full h-36 input-bg rounded-lg p-3 text-sm text-gray-500 overflow-y-auto"></div>
-            </div>
-        </div>
+    <div class="input-group">
+        <label>Select Gemini Flash Model</label>
+        <select id="model-select">
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="gemini-3.0-flash">Gemini 3.0 Flash</option>
+        </select>
     </div>
 
-    <script src="script.js"></script>
+    <div class="input-group">
+        <label>Upload MP3 or SRT File</label>
+        <input type="file" id="file-input" accept=".mp3, .srt">
+    </div>
+
+    <div class="btn-container">
+        <button class="process-btn">Process to MMSub</button>
+        <button class="download-btn">Download SRT</button>
+    </div>
+
+    <div class="status" id="status-text">Ready to process...</div>
+</div>
+
 </body>
 </html>
