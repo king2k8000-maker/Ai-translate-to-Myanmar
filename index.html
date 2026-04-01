@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transcript AI Studio</title>
+    <title>AI Studio - Gemini 1.5 Flash</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -14,42 +14,56 @@
       }
     }
     </script>
+
+    <style>
+        body { background-color: #0b1120; font-family: sans-serif; }
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        input:focus, select:focus { border-color: #3b82f6; outline: none; }
+    </style>
 </head>
-<body class="bg-[#0b1120] text-gray-200 min-h-screen p-4">
+<body class="text-gray-200 min-h-screen p-4">
 
 <div class="max-w-xl mx-auto space-y-6">
-    <header class="text-center py-4">
-        <h1 class="text-3xl font-bold text-white">Transcript <span class="text-blue-500">AI Studio</span></h1>
+    <header class="text-center py-6">
+        <h1 class="text-3xl font-bold text-white italic">Transcript <span class="text-blue-500">AI Studio</span></h1>
+        <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-[0.2em]">Ready for Gemini 1.5 Flash</p>
     </header>
 
-    <div class="bg-[#161f32] p-5 rounded-2xl border border-gray-700 shadow-lg">
-        <label class="text-xs text-gray-400 font-bold mb-2 block tracking-widest">API KEY</label>
-        <input id="apiKey" type="password" placeholder="Enter Gemini API Key" 
-            class="w-full p-3 rounded-xl bg-[#0b1120] border border-gray-600 mb-4 focus:border-blue-500 outline-none text-sm">
+    <div class="bg-[#161f32] p-5 rounded-2xl border border-gray-700 shadow-xl">
+        <label class="text-xs text-gray-400 font-bold mb-2 block">API KEY အသစ်ထည့်ပါ</label>
+        <input id="apiKey" type="password" placeholder="Paste your Gemini API Key here" 
+            class="w-full p-3 rounded-xl bg-[#0b1120] border border-gray-600 mb-4 text-sm transition-all">
         
-        <label class="text-xs text-gray-400 font-bold mb-2 block tracking-widest">SELECT MODEL</label>
-        <select id="modelSelect" class="w-full p-3 rounded-xl bg-[#1e293b] border border-gray-600 focus:outline-none text-sm">
-            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fastest)</option>
-            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Accurate)</option>
-            <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash (Exp)</option>
-        </select>
+        <label class="text-xs text-gray-400 font-bold mb-2 block">SELECTED MODEL</label>
+        <div class="p-3 rounded-xl bg-[#0f172a] border border-blue-900 text-blue-400 text-sm font-semibold">
+            <i class="fas fa-bolt mr-2 text-yellow-500"></i> gemini-1.5-flash
+        </div>
+        <input type="hidden" id="modelId" value="gemini-1.5-flash">
     </div>
 
-    <div class="bg-[#161f32] p-5 rounded-2xl border border-gray-700 shadow-lg">
-        <input type="file" id="fileInput" class="mb-4 block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-blue-600 file:text-white file:border-0 hover:file:bg-blue-700 cursor-pointer">
+    <div class="bg-[#161f32] p-5 rounded-2xl border border-gray-700 shadow-xl">
+        <label class="text-xs text-gray-400 font-bold mb-2 block uppercase">Upload Media</label>
+        <input type="file" id="fileInput" accept="audio/*,video/*,.srt" 
+            class="mb-4 block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-blue-600 file:text-white file:border-0 hover:file:bg-blue-700 cursor-pointer">
         
+        <label class="text-xs text-gray-400 font-bold mb-2 block uppercase">Task Type</label>
         <select id="taskType" class="w-full p-3 rounded-xl bg-[#1e293b] border border-gray-600 mb-6 text-sm">
             <option value="transcribe">Transcribe (Media to Text)</option>
             <option value="srt-translate">SRT to SRT Myanmar (Translate)</option>
         </select>
 
-        <button id="actionBtn" onclick="processAI()" class="w-full bg-green-600 py-4 rounded-xl hover:bg-green-700 font-bold shadow-lg text-white">
+        <button id="actionBtn" class="w-full bg-green-600 py-4 rounded-xl hover:bg-green-700 font-bold shadow-lg transition-all active:scale-95 text-white">
             <i class="fas fa-play mr-2"></i> START PROCESS
         </button>
     </div>
 
     <div class="bg-black p-4 rounded-xl border border-gray-700">
-        <textarea id="output" class="w-full h-80 bg-black text-green-400 text-xs font-mono outline-none resize-none" 
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-[10px] text-gray-500 font-bold">CONSOLE / RESULT</h3>
+            <button onclick="copyResult()" class="text-[10px] text-blue-400 border border-blue-900 px-3 py-1 rounded">COPY</button>
+        </div>
+        <textarea id="output" class="w-full h-80 bg-black text-green-500 text-xs font-mono outline-none resize-none custom-scroll leading-relaxed" 
             placeholder="Result will appear here..." readonly></textarea>
     </div>
 </div>
@@ -57,23 +71,24 @@
 <script type="module">
     import { GoogleGenerativeAI } from "@google/generative-ai";
 
-    window.processAI = async function() {
+    async function runAI() {
         const key = document.getElementById("apiKey").value.trim();
         const fileInput = document.getElementById("fileInput");
         const output = document.getElementById("output");
         const btn = document.getElementById("actionBtn");
-        const modelId = document.getElementById("modelSelect").value;
+        const modelName = document.getElementById("modelId").value;
         const task = document.getElementById("taskType").value;
 
-        if (!key || !fileInput.files[0]) return alert("Key သို့မဟုတ် File ထည့်ရန် လိုအပ်ပါသည်။");
+        if (!key) return alert("API Key အသစ်ထည့်ပေးပါဦး!");
+        if (!fileInput.files[0]) return alert("ဖိုင်အရင်ရွေးပါ!");
 
         try {
             btn.disabled = true;
-            btn.innerHTML = "Processing...";
-            output.value = "[System]: Connecting to " + modelId + "...";
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+            output.value = `[System]: Connecting to ${modelName}...\n[System]: Analyzing file...`;
 
             const genAI = new GoogleGenerativeAI(key);
-            const model = genAI.getGenerativeModel({ model: modelId });
+            const model = genAI.getGenerativeModel({ model: modelName });
 
             const file = fileInput.files[0];
             const base64Data = await new Promise((res) => {
@@ -83,24 +98,37 @@
             });
 
             let prompt = (task === "srt-translate") 
-                ? "Translate this SRT content to Myanmar. Keep SRT format." 
-                : "Transcribe this media to Myanmar Unicode text.";
+                ? "Translate this SRT content to Myanmar language accurately. Keep timing format." 
+                : "Transcribe this media file to Myanmar Unicode text.";
 
             const result = await model.generateContent([
-                { inlineData: { data: base64Data, mimeType: file.type } },
+                { inlineData: { data: base64Data, mimeType: file.type || "application/octet-stream" } },
                 prompt
             ]);
 
             const response = await result.response;
             output.value = response.text();
 
-        } catch (e) {
-            output.value = "[Error]: " + e.message;
+        } catch (err) {
+            let msg = err.message;
+            if (msg.includes("expired") || msg.includes("API_KEY_INVALID")) {
+                msg = "API Key သက်တမ်းကုန်နေပါပြီ။ Key အသစ်ပြန်ယူထည့်ပေးပါ။";
+            }
+            output.value = "[Error]: " + msg;
         } finally {
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-play mr-2"></i> START PROCESS';
         }
     }
+
+    document.getElementById("actionBtn").addEventListener("click", runAI);
+
+    window.copyResult = function() {
+        const area = document.getElementById("output");
+        area.select();
+        document.execCommand("copy");
+        alert("Copied to clipboard! ✅");
+    };
 </script>
 </body>
 </html>
