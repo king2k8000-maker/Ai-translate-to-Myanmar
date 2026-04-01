@@ -12,14 +12,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
         }
 
         .card {
             background-color: #161b22;
-            width: 380px;
-            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
             border-radius: 16px;
             border: 1px solid #30363d;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
@@ -46,7 +48,7 @@
             border: 1px solid #30363d;
             border-radius: 8px;
             padding: 14px;
-            color: #8b949e;
+            color: white;
             font-size: 16px;
             margin-bottom: 15px;
             box-sizing: border-box;
@@ -58,13 +60,10 @@
             background-repeat: no-repeat;
             background-position: right 10px center;
             background-size: 20px;
-            color: white;
         }
 
-        .connect-btn {
+        .btn {
             width: 100%;
-            background-color: #2f81f7;
-            color: white;
             border: none;
             border-radius: 8px;
             padding: 14px;
@@ -72,7 +71,11 @@
             font-weight: 600;
             cursor: pointer;
             margin-bottom: 15px;
+            transition: 0.3s;
         }
+
+        .connect-btn { background-color: #2f81f7; color: white; }
+        .download-btn { background-color: #238636; color: white; display: none; }
 
         .api-status {
             color: #3fb950;
@@ -80,38 +83,22 @@
             font-style: italic;
             font-size: 16px;
             margin-bottom: 30px;
+            display: none;
         }
 
         .upload-box {
-            border: 2px dashed #30363d;
+            border: 2px dashed #4da3ff;
             border-radius: 12px;
-            padding: 40px 20px;
+            padding: 30px 20px;
             text-align: center;
             cursor: pointer;
-            transition: 0.3s;
+            background-color: rgba(77, 163, 255, 0.05);
+            margin-bottom: 20px;
         }
 
-        .upload-box:hover {
-            border-color: #4da3ff;
-            background-color: #1c2128;
-        }
-
-        .upload-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .upload-text {
-            font-size: 18px;
-            color: #f0f6fc;
-        }
-
-        /* Download button for final step */
-        .download-area {
-            margin-top: 20px;
-            display: none; /* hidden initially */
-        }
+        .upload-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+        
+        #file-input { display: none; }
     </style>
 </head>
 <body>
@@ -120,31 +107,51 @@
     <div class="title">Subtitle Studio</div>
 
     <div class="section-label">1. API & MODEL SETUP</div>
+    <input type="password" id="api-key" class="input-field" placeholder="Paste Gemini API Key Here">
     
-    <input type="text" class="input-field" placeholder="Paste Gemini API Key Here">
-    
-    <select class="input-field">
-        <option>Gemini 1.5 Pro</option>
-        <option>Gemini 1.5 Flash</option>
-        <option>Gemini 2.5 Flash</option>
-        <option>Gemini 3.0 Flash</option>
+    <select id="model-select" class="input-field">
+        <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+        <option value="gemini-3.0-flash">Gemini 3.0 Flash</option>
     </select>
 
-    <button class="connect-btn">Connect API Key</button>
-    
-    <div class="api-status">✅ API Connected!</div>
+    <button class="btn connect-btn" onclick="connectAPI()">Connect API Key</button>
+    <div id="status" class="api-status">✅ API Connected!</div>
 
     <div class="section-label">2. UPLOAD SOURCE (MP3 OR SRT)</div>
-    
-    <div class="upload-box">
+    <div class="upload-box" onclick="document.getElementById('file-input').click()">
         <span class="upload-icon">📥</span>
-        <div class="upload-text">Click to Select File</div>
+        <div id="file-name" class="upload-text">Click to Select File</div>
     </div>
+    <input type="file" id="file-input" accept=".mp3, .srt" onchange="updateFileName()">
 
-    <div id="download-section" style="margin-top: 20px; text-align: center;">
-        <button class="connect-btn" style="background-color: #238636;">Download SRT</button>
-    </div>
+    <button id="dl-btn" class="btn download-btn">Download SRT</button>
 </div>
+
+<script>
+    function connectAPI() {
+        const key = document.getElementById('api-key').value;
+        if(key.length > 10) {
+            document.getElementById('status').style.display = 'block';
+            alert("API Connected Successfully!");
+        } else {
+            alert("Please enter a valid API Key");
+        }
+    }
+
+    function updateFileName() {
+        const input = document.getElementById('file-input');
+        const fileNameDisplay = document.getElementById('file-name');
+        const dlBtn = document.getElementById('dl-btn');
+        
+        if (input.files.length > 0) {
+            fileNameDisplay.innerText = input.files[0].name;
+            // File ရွေးပြီးရင် Download button ပြပေးမည်
+            dlBtn.style.display = 'block';
+        }
+    }
+</script>
 
 </body>
 </html>
