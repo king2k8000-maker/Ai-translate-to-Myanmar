@@ -1,165 +1,90 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Subtitle & Voice Studio</title>
+    <title>Subtitle Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0d1117; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; padding: 15px; margin: 0; }
-        .container { width: 100%; max-width: 420px; background: #161b22; padding: 25px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .label { font-size: 11px; color: #58a6ff; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: white; box-sizing: border-box; margin-bottom: 15px; outline: none; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-blue { background: #2f81f7; color: white; }
-        .btn-green { background: #238636; color: white; font-size: 16px; margin-top: 10px; }
-        .upload-box { border: 2px dashed #30363d; padding: 30px; text-align: center; border-radius: 10px; cursor: pointer; color: #8b949e; margin-bottom: 15px; background: #0d1117; }
-        .voice-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .v-btn { flex: 1; padding: 10px; background: #21262d; border: 1px solid #30363d; color: white; border-radius: 6px; cursor: pointer; }
-        .v-btn.active { background: #2f81f7; border-color: #2f81f7; }
-        textarea { height: 95px; resize: none; font-size: 13px; margin-bottom: 5px; line-height: 1.5; font-family: monospace; }
-        .status { text-align: center; font-size: 12px; color: #d29922; margin-bottom: 15px; font-style: italic; }
-        .dl-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .dl-btn { color: #58a6ff; font-size: 11px; cursor: pointer; border: 1px solid #30363d; padding: 2px 8px; border-radius: 4px; background: none; }
+        body { background-color: #0d1117; font-family: sans-serif; }
+        .card-bg { background-color: #161b22; border: 1px solid #30363d; }
+        .input-bg { background-color: #0d1117; border: 1px solid #30363d; }
+        .btn-blue { background-color: #238636; } /* ပုံထဲက Start Process က အစိမ်းရောင် */
+        .btn-blue-primary { background-color: #2f81f7; }
+        .status-text { color: #3fb950; font-style: italic; }
     </style>
 </head>
-<body>
+<body class="flex justify-center items-center min-h-screen p-4">
 
-<div class="container">
-    <h2 style="text-align: center; margin-bottom: 20px;">Subtitle Studio</h2>
+    <div class="card-bg w-full max-w-md p-6 rounded-xl shadow-xl">
+        <h1 class="text-3xl font-bold text-center text-white mb-8">Subtitle Studio</h1>
 
-    <div class="label">1. API & Model Setup</div>
-    <input type="password" id="apiKey" placeholder="Paste Gemini API Key Here">
-    <select id="modelSelect">
-        <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
-        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash</option>
-        <option value="gemini-3.0-flash-preview">Gemini 3.0 Flash</option>
-    </select>
-    <button class="btn btn-blue" onclick="saveKey()">Connect API Key</button>
-    <div id="status" class="status">Ready...</div>
+        <div class="space-y-4">
+            <h2 class="text-blue-400 text-xs font-bold uppercase tracking-wider">1. API & MODEL SETUP</h2>
+            <input type="text" id="apiKey" placeholder="Paste Gemini API Key Here" 
+                class="w-full input-bg text-white rounded-md p-3 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            
+            <div class="relative">
+                <select id="modelSelect" class="w-full input-bg text-white rounded-md p-3 appearance-none focus:outline-none">
+                    <option>Gemini 3.0 Flash</option>
+                    <option>Gemini 1.5 Pro</option>
+                </select>
+                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">▼</div>
+            </div>
 
-    <div class="label">2. Upload Source (MP3 or SRT)</div>
-    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-        <span id="fileName">📤 Click to Select File</span>
-    </div>
-    <input type="file" id="fileInput" style="display:none" accept="audio/*, .srt" onchange="fileSelected()">
-
-    <div class="voice-group">
-        <button id="fBtn" class="v-btn active" onclick="setVoice('female')">👩 Female</button>
-        <button id="mBtn" class="v-btn" onclick="setVoice('male')">👨 Male</button>
-    </div>
-
-    <button id="runBtn" class="btn btn-green" onclick="startAI()">START AI PROCESS</button>
-
-    <div style="margin-top: 25px; border-top: 1px solid #30363d; padding-top: 20px;">
-        <div class="dl-row">
-            <div class="label">🌐 Original SRT</div>
-            <button class="dl-btn" onclick="download('eng')">📥 Download</button>
+            <button onclick="connectAPI()" class="w-full btn-blue-primary hover:opacity-90 text-white font-bold py-3 rounded-lg transition">
+                Connect API Key
+            </button>
+            <p id="apiStatus" class="status-text text-center text-sm">✅ API Connected!</p>
         </div>
-        <textarea id="engOut" readonly></textarea>
 
-        <div class="dl-row" style="margin-top: 15px;">
-            <div class="label" style="color: #3fb950;">🌍 MMSUB SRT</div>
-            <button class="dl-btn" style="color: #3fb950; border-color: #238636;" onclick="download('mm')">📥 Download</button>
+        <div class="mt-6 space-y-3">
+            <h2 class="text-blue-400 text-xs font-bold uppercase tracking-wider">2. UPLOAD SOURCE (MP3 OR SRT)</h2>
+            <div id="dropZone" class="border-2 border-dashed border-gray-700 rounded-xl p-10 text-center cursor-pointer hover:bg-[#1c2128] transition">
+                <span class="text-2xl text-orange-400">📥</span>
+                <p class="mt-2 text-gray-300 font-medium">Click to Select File</p>
+                <input type="file" id="fileInput" class="hidden">
+            </div>
         </div>
-        <textarea id="mmOut" readonly></textarea>
 
-        <button class="btn" style="background: #1c2128; border: 1px solid #30363d; color: #58a6ff; margin-top: 15px;" onclick="playVoice()">🔊 Play Myanmar Voice</button>
-        
-        <button class="btn" style="background: #2f81f7; color: white; margin-top: 10px;" onclick="downloadMp3()">📥 DOWNLOAD MYANMAR MP3</button>
+        <div class="flex gap-3 mt-6">
+            <button id="femaleBtn" onclick="setGender('female')" class="flex-1 bg-[#2f81f7] py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 border border-blue-400">
+                👩 Female
+            </button>
+            <button id="maleBtn" onclick="setGender('male')" class="flex-1 bg-[#21262d] py-3 rounded-lg font-medium text-white flex items-center justify-center gap-2 border border-gray-700">
+                👦 Male
+            </button>
+        </div>
+
+        <button onclick="startProcess()" class="w-full bg-[#238636] hover:bg-[#2ea043] text-white font-bold py-4 rounded-lg text-lg mt-6 shadow-lg uppercase tracking-widest">
+            START AI PROCESS
+        </button>
+
+        <div class="h-[1px] bg-gray-800 my-8"></div>
+
+        <div class="space-y-6">
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[#58a6ff] text-[10px] font-extrabold flex items-center gap-1">🌐 ORIGINAL SRT</span>
+                    <button class="bg-[#21262d] border border-gray-700 px-3 py-1 rounded text-[10px] text-orange-400 font-bold flex items-center gap-1 hover:bg-gray-800">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="w-full h-36 input-bg rounded-lg p-3 text-sm text-gray-500 overflow-y-auto"></div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[#3fb950] text-[10px] font-extrabold flex items-center gap-1">🌍 MMSUB SRT</span>
+                    <button class="border border-[#238636] px-3 py-1 rounded text-[10px] text-[#3fb950] font-bold flex items-center gap-1 hover:bg-[#23863622]">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="w-full h-36 input-bg rounded-lg p-3 text-sm text-gray-500 overflow-y-auto"></div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    let currentVoice = 'female';
-
-    function saveKey() {
-        const key = document.getElementById('apiKey').value;
-        if(key.startsWith("AIza")) {
-            localStorage.setItem('g_key', key);
-            localStorage.setItem('g_mod', document.getElementById('modelSelect').value);
-            document.getElementById('status').innerText = "✅ API Connected!";
-            document.getElementById('status').style.color = "#3fb950";
-        } else { alert("API Key မှားယွင်းနေပါသည်။"); }
-    }
-
-    function fileSelected() {
-        const file = document.getElementById('fileInput').files[0];
-        if(file) document.getElementById('fileName').innerText = file.name;
-    }
-
-    function setVoice(v) {
-        currentVoice = v;
-        document.getElementById('fBtn').classList.toggle('active', v === 'female');
-        document.getElementById('mBtn').classList.toggle('active', v === 'male');
-    }
-
-    // SRT Download (နာရီများ အပြည့်အစုံဖြင့်)
-    function download(type) {
-        const content = type === 'eng' ? document.getElementById('engOut').value : document.getElementById('mmOut').value;
-        if(!content) return alert("ဒေတာမရှိသေးပါ။");
-        const blob = new Blob([content], {type: 'text/srt'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = type === 'eng' ? "original.srt" : "mmsub.srt";
-        a.click();
-    }
-
-    // MP3 အစစ် ဒေါင်းလုဒ်လုပ်ရန် Function
-    function downloadMp3() {
-        const text = document.getElementById('mmOut').value;
-        if(!text) return alert("အရင်ဆုံး Process လုပ်ပါ။");
-        
-        // နာရီမှတ်တမ်းများကို ဖယ်ထုတ်ပြီး အသံဖိုင်အဖြစ် ပြောင်းလဲခြင်း
-        const cleanText = text.replace(/(\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+)/g, "").replace(/\d+/g, "").trim();
-        const blob = new Blob([cleanText], {type: 'audio/mpeg'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = "myanmar_voice.mp3";
-        a.click();
-    }
-
-    function playVoice() {
-        const text = document.getElementById('mmOut').value;
-        if(!text) return;
-        window.speechSynthesis.cancel();
-        // အသံဖတ်စဉ် နာရီများကို ကျော်ဖတ်မည်
-        const utter = new SpeechSynthesisUtterance(text.replace(/(\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+)/g, ""));
-        utter.lang = 'my-MM';
-        utter.pitch = currentVoice === 'male' ? 0.8 : 1.2;
-        window.speechSynthesis.speak(utter);
-    }
-
-    function startAI() {
-        const key = localStorage.getItem('g_key');
-        const file = document.getElementById('fileInput').files[0];
-        if(!key || !file) return alert("Key နှင့် ဖိုင်ကို ထည့်သွင်းပါ။");
-
-        document.getElementById('status').innerText = "⌛ AI Generating MP3 & SRT...";
-        
-        setTimeout(() => {
-            // နာရီ (Timestamps) ပါဝင်သော Result များ
-            const time = "1\n00:01:56,300 --> 00:01:58,050\n";
-            if(file.name.endsWith('.srt')) {
-                document.getElementById('engOut').value = time + "(Original Content)";
-                document.getElementById('mmOut').value = time + "(အာကာသဟင်းလင်းပြင်ထက်တွင်)";
-            } else {
-                document.getElementById('engOut').value = time + "Original Audio Script.";
-                document.getElementById('mmOut').value = time + "မြန်မာဘာသာပြန် MMSUB အသံထွက်။";
-                playVoice();
-            }
-            document.getElementById('status').innerText = "✅ Success!";
-        }, 3000);
-    }
-
-    window.onload = () => {
-        const k = localStorage.getItem('g_key');
-        if(k) {
-            document.getElementById('apiKey').value = k;
-            document.getElementById('modelSelect').value = localStorage.getItem('g_mod');
-            saveKey();
-        }
-    }
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
